@@ -1,1 +1,34 @@
-# auto-englishproblem-generator
+# Auto English Problem Generator
+
+> **팀 프로젝트 · 개인 보관·정비본**
+> 팀 프로젝트로 시작한 영어 문제 생성 실험 코드를 개인 계정에서 보관하고 정비합니다.
+
+영어 문장에서 빈칸 후보를 찾고, 어휘·의미 유사도와 발음 유사도를 바탕으로 선택지를 구성하는 Python 프로토타입입니다.
+
+## 구성과 처리 흐름
+
+1. 어휘 목록과 Word2Vec 모델을 불러옵니다.
+2. 입력 문장을 정리하고 토큰·빈칸 후보를 찾습니다.
+3. 의미·발음 유사도 기반 후보를 구성합니다.
+4. 문제와 선택지 형태로 결과를 조합합니다.
+
+| 코드 | 역할 |
+|---|---|
+| [main.py](main.py) | `initialize_pro_set`, `load_data`, `problem_generation` 진입 함수 |
+| [general_use.py](general_use.py) | 설정·문제 생성 단계·결과 조합 |
+| [nlp/nlp.py](nlp/nlp.py) | 어휘 목록·토큰·품사 처리 |
+| [word2vec/word2vec.py](word2vec/word2vec.py) | Gensim 모델 적재·유사 단어 조회 |
+| [phonetic](phonetic/) | 발음 매칭 자료 |
+
+기존 [입력 파일](input_text.txt)과 [출력 파일](output_text.txt)은 당시 자료입니다. 이번 정비에서 재실행해 얻은 결과는 아닙니다.
+
+## 실행 재현 상태
+
+현재 저장소만으로 바로 실행되는 상태는 확인하지 않았습니다. 복원에 필요한 항목은 다음과 같습니다.
+
+- 코드에 나타나는 의존성: Gensim, NLTK, py_stringmatching, jellyfish. 고정 버전의 설치 명세는 아직 없습니다.
+- `Config`의 자료 경로는 `./engine/...` 구조를 전제로 하며 현재 저장소 배치와 맞추는 작업이 필요합니다.
+- 설정이 참조하는 학습된 Word2Vec 모델 `w2v_0506`은 Git 추적 파일에 없습니다.
+- NLTK 토큰화·불용어·품사 자료와 상대 import를 포함한 패키지 실행 구성을 확인해야 합니다.
+
+다음 복원 단계는 의존 버전·모델 준비 방법을 정리하고, 작은 입력 하나로 문제·선택지를 생성하는 절차를 검증하는 것입니다. 현재 실행 성공이나 생성 품질을 검증한 것으로 표시하지 않습니다.
